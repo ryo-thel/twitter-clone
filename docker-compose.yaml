@@ -6,6 +6,7 @@ services:
     build:
       context: ./app  # ReactアプリケーションのDockerfileが存在するディレクトリへのパス
       dockerfile: Dockerfile
+    command: npm start
     ports:
       - 3000:3000  # Reactアプリケーションのポート番号をホストのポート番号にマッピング
     volumes:
