@@ -1,9 +1,0 @@
-# 環境設定
-.env*
-
-# その他
-README.md
-.git
-.gitignore
-.vscode
-.coverage
