@@ -32,6 +32,9 @@ RUN pip install -r requirements.txt
 #ランタイム用
 FROM python:3.11-slim-buster
 
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
 RUN apt-get update && \
     apt-get install -y libpq-dev && \
     rm -rf /var/lib/apt/lists/*
