@@ -11,7 +11,7 @@ services:
       - 3000:3000  # Reactアプリケーションのポート番号をホストのポート番号にマッピング
     volumes:
       - ./app:/app  # Reactアプリケーションのソースコードをコンテナにマウント
-      - /app/node_modules
+      - node_modules:/app/node_modules
     depends_on:
       - api  # Djangoサービスに依存する
 
@@ -51,3 +51,4 @@ services:
 
 volumes:
   postgres_data:
+  node_modules:
