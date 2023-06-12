@@ -6,13 +6,12 @@ services:
     build:
       context: ./app  # ReactアプリケーションのDockerfileが存在するディレクトリへのパス
       dockerfile: Dockerfile
+    command: npm start
     ports:
       - 3000:3000  # Reactアプリケーションのポート番号をホストのポート番号にマッピング
     volumes:
       - ./app:/app  # Reactアプリケーションのソースコードをコンテナにマウント
-      - /app/node_modules
-    depends_on:
-      - api  # Djangoサービスに依存する
+      - node_modules:/app/node_modules
 
   api:
     container_name: leading_basic_c_api
@@ -28,11 +27,12 @@ services:
       "-c",
       "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     ]
-    tty: true
     ports:
       - "8000:8000"
-    depends_on:
-      - db
+    depends_on: 
+      db: # dbサービスに依存する
+        condition: service_healthy # healthcheckが終わるまで起動待機
+    tty: true
 
   db:
     container_name: leading_basic_c_db
@@ -47,6 +47,13 @@ services:
       options:
         max-size: 12m
         max-file: '3'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
 
 volumes:
   postgres_data:
+  node_modules:
