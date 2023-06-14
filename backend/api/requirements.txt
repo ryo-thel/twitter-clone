@@ -3,6 +3,7 @@ djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.0
 drf_spectacular==0.26.2
 django_filter==23.1
+django-environ
 factory_boy==3.2.1
 coverage==6.4.4
 black==23.3.0
