@@ -1,5 +1,5 @@
 #ビルド用
-FROM python:3.11-slim-buster as builder
+FROM python:3.10-slim-buster as builder
 
 # 標準出力のバッファリングを無効化（ログをリアルタイムに表示）
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -30,7 +30,7 @@ COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 
 #ランタイム用
-FROM python:3.11-slim-buster
+FROM python:3.10-slim-buster
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
