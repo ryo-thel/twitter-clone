@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import os, environ
+import os
+import environ
 from pathlib import Path
+
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +31,7 @@ env.read_env(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DEBUG")
+DEBUG = env.bool("DEBUG")
 
 ALLOWED_HOSTS = []
 
@@ -42,6 +45,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "rest_framework_simplejwt.token_blacklist",
+    "corsheaders",
+    "djoser",
+    "django_filters",
+    "drf_spectacular",
+
 ]
 
 MIDDLEWARE = [
@@ -52,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -130,3 +141,33 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+# DjangoRESTFramework-simpleJWT
+
+SIMPLE_JWT = {  # simple-jwtの設定
+    "AUTH_HEADER_TYPES": ("JWT",),  # 認証のために使用されるヘッダ名
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),  # アクセストークンが有効な期間を60分に設定
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),  # リフレッシュトークンが有効な期間を7日に設定
+    "ROTATE_REFRESH_TOKENS": True,  # トークン再発行にリフレッシュトークンを含める
+    "BLACKLIST_AFTER_ROTATION": True,  # トークン再発行にリフレッシュトークンがブラックリストに追加される
+    "UPDATE_LAST_LOGIN": True,  # 最終ログイン日時の更新
+}
+
+# Django CORS Headers
+
+CLIENT_URL = env("CLIENT_URL")
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True  # どのリクエストでも許可
+else:
+    CORS_ORIGIN_WHITELIST = [CLIENT_URL]  # CLIENT_URL（今回はNode.js）のみリクエストを許可
+    CORS_ALLOWED_ORIGINS = [CLIENT_URL]
