@@ -10,14 +10,15 @@ up:
 upd:
 	docker compose up -d
 
+stop:
+	docker compose stop
+
 down:
 	docker compose down
 
 shell:
 	docker compose exec ${SERVICE_NAME} bash
 
-
-# ここから動作確認まだ
 startproject:
 	docker compose run --rm ${SERVICE_NAME} python3 manage.py startproject ${service}
 
