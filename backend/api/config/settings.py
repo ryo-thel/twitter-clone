@@ -182,7 +182,7 @@ DEFAULT_FROM_EMAIL = 'xxx@gmail.com'
 
 DJOSER = {
     # メールアドレスでログイン
-    'LOGIN_FIELD': 'email',
+    # 'LOGIN_FIELD': 'email',
     # アカウント本登録メール
     'SEND_ACTIVATION_EMAIL': True,
     # アカウント本登録完了メール

@@ -11,11 +11,11 @@ servers:
 
 
 paths:
-  /signup:
+  /auth/users:
     post:
-      operationId: SignUp
-      summary: サインアップ
-      description: サインアップ
+      operationId: TempUserCreation
+      summary: 仮登録
+      description: 仮登録
       tags:
         - auth
       security:
@@ -26,19 +26,46 @@ paths:
             schema:
               type: object
               properties:
-                email:
-                  type: string
-                  description: メールアドレス
-                  example: example@4nonome.com
                 username:
                   type: string
                   description: 名前
-                  example: PG太郎
+                  example: example_user
+                email:
+                  type: string
+                  description: メールアドレス
+                  example: example@example.com
+                password:
+                  type: string
+                  description: パスワード
+                  example: gauoyr3ew
+                re_password:
+                  type: string
+                  description: パスワード確認用
+                  example: gauoyr3ew
+
       responses:
-        201:
-          description: サインアップ成功
+        200:
+          description: 仮登録完了
+          content: 
+            application/json:
+              schema:
+                type: object
+                description: ユーザー
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: ユーザーID
+                  username:
+                    type: string
+                    description: ユーザー名
+                  email:
+                    type: string
+                    format: email
+                    description: メールアドレス
+                  
         400:
-          description: サインアップ失敗
+          description: 仮登録失敗
           content:
             application/json:
               schema:
@@ -66,7 +93,7 @@ paths:
                   value:
                     errors:
                       - code: "002"
-                        detail: 名前は50文字まで入力可能です
+                        detail: 名前は255文字まで入力可能です
                 メールアドレス未入力:
                   value:
                     errors:
@@ -76,341 +103,59 @@ paths:
                   value:
                     errors:
                       - code: "004"
-                        detail: メールアドレスは350文字まで入力可能です
-                メールアドレス4nonomeドメイン制約:
+                        detail: メールアドレスは255文字まで入力可能です
+                重複メールアドレス:
                   value:
                     errors:
                       - code: "005"
-                        detail: メールアドレスの形式は「@4nonome.com」です
+                        detail: 既に登録されたメールアドレスです
+                重複ユーザー名:
+                  value:
+                    errors:
+                      - code: "006"
+                        detail: 既に登録されたユーザー名です
+                単純すぎるパスワード:
+                  value:
+                    errors:
+                      - code: "007"
+                        detail: 簡単すぎます
 
-        401:
-          $ref: '#/components/responses/Unauthorized'
-
-  /login:
-    get:
-      operationId: Login
-      summary: ログイン
-      description: ログイン
+  /auth/users/activation:
+    post:
+      operationId: UserCreation
+      summary: 本登録
+      description: 本仮登録
       tags:
         - auth
       security:
         - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  description: ユーザーID
+                  example: Mn
+                token:
+                  type: string
+                  description: 本登録token
+                  example: faefasgist134uaosgh
+
       responses:
-        200:
-          description: ログイン成功
-          content:
+        201:
+          description: 本登録完了
+          content: 
             application/json:
               schema:
                 type: object
+                description: ユーザー
                 properties:
-                  email:
+                  redirect_url:
                     type: string
-                    description: メールアドレス
-                    example: example@4nonome.com
-                  username:
-                    type: string
-                    description: 名前
-                    example: PG太郎
-        401:
-          $ref: '#/components/responses/Unauthorized'
-
-  /user/course:
-    get:
-      operationId: GetUserCourse
-      summary: 受講中コース詳細取得
-      description: 受講中コース詳細取得
-      tags:
-        - user
-      security:
-        - BearerAuth: []
-      responses:
-        200:
-          description: 成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserCourse'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        403:
-          $ref: '#/components/responses/Forbidden'
-        404:
-          $ref: '#/components/responses/NotFound'
-
-  /user/course/assignments:
-    get:
-      operationId: GetUserCourseAssignments
-      summary: 受講中コース課題一覧取得
-      description: 受講中コース課題一覧取得
-      tags:
-        - user
-      security:
-        - BearerAuth: []
-      responses:
-        200:
-          description: 成功
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/UserCourseAssignment'
-
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        403:
-          $ref: '#/components/responses/Forbidden'
-        404:
-          $ref: '#/components/responses/NotFound'
+                    description: リダイレクト先のURL(わからないのでとりあえず)
+                    example: http://localhost:8000/api/v1/~~/
 
 
-
-components:
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-
-  responses:
-    Unauthorized:
-      description: 401 Error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    code:
-                      type: string
-                      description: エラーコード
-                      example: "000"
-                    detail:
-                      type: string
-                      description: エラー詳細
-                      example: 認証に失敗しました
-    Forbidden:
-      description: 403 Error
-    NotFound:
-      description: 404 Error
-
-  schemas:
-    CreatedAt:
-      type: string
-      format: date-time
-      description: 作成日時
-    UpdatedAt:
-      type: string
-      format: date-time
-      description: 作成日時
-    OrderNumber:
-      type: integer
-      description: 並び順番号
-
-    Course:
-      type: object
-      description: コース[マスターデータ]
-      properties:
-        # id:
-        #   type: string
-        #   format: uuid
-        #   description: コースID
-        name:
-          type: string
-          description: コース名
-        description:
-          type: string
-          description: コース詳細
-        active_version:
-          type: string
-          description: アクティブバージョン
-          readOnly: true
-    CourseVersion:
-      type: object
-      description: コースバージョン[マスターデータ]
-      properties:
-        # id:
-        #   type: string
-        #   format: uuid
-        #   description: コースバージョンID
-        # course:
-        #   $ref: '#/components/schemas/Course'
-        version:
-          type: string
-          description: バージョン
-        is_active:
-          type: boolean
-          description: アクティブフラグ
-    CourseAssignment:
-      type: object
-      description: コース課題[マスタデータ]
-      properties:
-        # id:
-        #   type: string
-        #   format: uuid
-        #   description: コース課題ID
-        # course:
-        #   $ref: '#/components/schemas/Course'
-        course_version:
-          $ref: '#/components/schemas/CourseVersion'
-        title:
-          type: string
-          description: コース課題タイトル
-        description:
-          type: string
-          description: コース課題詳細
-        estimated_time:
-          type: integer
-          description: 想定学習時間[分]
-        thumbnail_url:
-          type: string
-          description: サムネイルURL
-        is_submittion_required:
-          type: boolean
-          description: 提出必須フラグ
-        order_number:
-          $ref: '#/components/schemas/OrderNumber'
-    CourseAssignmentContent:
-      type: object
-      description: コース課題コンテンツ[マスターデータ]
-      properties:
-        # id:
-        #   type: string
-        #   format: uuid
-        #   description: コース課題コンテンツID
-        # course_assignment:
-        #   $ref: '#/components/schemas/CourseAssignment'
-        title:
-          type: string
-          description: コース課題コンテンツタイトル
-        description:
-          type: string
-          description: コース課題コンテンツ詳細
-        content:
-          type: string
-          description: コース課題コンテンツ内容
-        order_number:
-          $ref: '#/components/schemas/OrderNumber'
-    CourseAssignmentContentReference:
-      type: object
-      description: コース課題コンテンツ参考[マスターデータ]
-      properties:
-        # id:
-        #   type: string
-        #   format: uuid
-        #   description: コース課題コンテンツ参考ID
-        # course_assignment_content:
-        #   $ref: '#/components/schemas/CourseAssignmentContent'
-        title:
-          type: string
-          description: コース課題コンテンツ参考タイトル
-          nullable: true
-        url:
-          type: string
-          description: 参考URL
-        order_number:
-          $ref: '#/components/schemas/OrderNumber'
-
-    User:
-      type: object
-      description: ユーザー
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ユーザーID
-
-    UserCourse:
-      type: object
-      description: ユーザーコース
-      properties:
-        # id:
-        #   type: string
-        #   format: uuid
-        #   description: ユーザーコースID
-        # user:
-        #   $ref: '#/components/schemas/User'
-        course:
-          $ref: '#/components/schemas/Course'
-        started_date:
-          type: string
-          format: date
-          description: コース開始日
-        ended_date:
-          type: string
-          format: date
-          description: コース修了日
-        total_course_assignment_count:
-          type: integer
-          description: コース課題数
-          readOnly: true
-        completed_course_assignment_count:
-          type: integer
-          description: 修了済コース課題数
-          readOnly: true
-        course_expiration_date:
-          type: string
-          format: date
-          description: コース修了期日
-          readOnly: true
-    UserCourseAssignmentStatus:
-      type: string
-      description: ユーザーコース課題ステータス
-      enum:
-        - new
-        - wip
-        - done
-    UserCourseAssignment:
-      type: object
-      description: ユーザーコース課題
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ユーザーコース課題ID
-        # user_course:
-        #   $ref: '#/components/schemas/UserCourse'
-        course_assignment:
-          $ref: '#/components/schemas/CourseAssignment'
-        status:
-          $ref: '#/components/schemas/UserCourseAssignmentStatus'
-        ended_at:
-          type: string
-          format: date-time
-          description: 完了日時
-        total_course_assignment_content_count:
-          type: integer
-          description: コース課題コンテンツ数
-          readOnly: true
-        completed_course_assignment_content_count:
-          type: integer
-          description: 修了済コース課題コンテンツ数
-          readOnly: true
-    UserCourseAssignmentContentStatus:
-      type: string
-      description: ユーザーコース課題コンテンツステータス
-      enum:
-        - new
-        - wip
-        - done
-    UserCourseAssignmentContent:
-      type: object
-      description: ユーザーコース課題コンテンツ
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: ユーザーコース課題コンテンツID
-        # user_course_assignment:
-        #   $ref: '#/components/schemas/UserCourseAssignment'
-        course_assignment_content:
-          $ref: '#/components/schemas/CourseAssignmentContent'
-        status:
-          $ref: '#/components/schemas/UserCourseAssignmentContentStatus'
-        ended_at:
-          type: string
-          format: date-time
-          description: 完了日時
