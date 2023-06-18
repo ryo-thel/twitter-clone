@@ -10,7 +10,7 @@ DB: PostgreSQL
 # 開発
 ## .envファイルの作成、Docker環境構築
 ```
-$ make env
+$ make dev
 ```
 ## コンテナの起動
 ```
