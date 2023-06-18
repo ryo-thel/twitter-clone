@@ -164,3 +164,63 @@ if DEBUG:
 else:
     CORS_ORIGIN_WHITELIST = [CLIENT_URL]  # ホワイトリストに設定したCLIENT_URL（今回はNode.js）のみリクエストを許可
     CORS_ALLOWED_ORIGINS = [CLIENT_URL]
+
+AUTH_USER_MODEL = "accounts.UserAccount"
+
+# ローカル確認用
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# 本番環境用
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'xxx@gmail.com'
+EMAIL_HOST_PASSWORD = 'xxx'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'xxx@gmail.com'
+
+
+DJOSER = {
+    # メールアドレスでログイン
+    'LOGIN_FIELD': 'email',
+    # アカウント本登録メール
+    'SEND_ACTIVATION_EMAIL': True,
+    # アカウント本登録完了メール
+    'SEND_CONFIRMATION_EMAIL': True,
+    # メールアドレス変更完了メール
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
+    # パスワード変更完了メール
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
+    # アカウント登録時に確認用パスワード必須
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    # メールアドレス変更時に確認用メールアドレス必須
+    'SET_USERNAME_RETYPE': True,
+    # パスワード変更時に確認用パスワード必須
+    'SET_PASSWORD_RETYPE': True,
+    # アカウント本登録用URL
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    # メールアドレスリセット完了用URL
+    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
+    # パスワードリセット完了用URL
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    # カスタムユーザー用シリアライザー
+    'SERIALIZERS': {
+        'user_create': 'accounts.serializers.UserSerializer',
+        'user': 'accounts.serializers.UserSerializer',
+        'current_user': 'accounts.serializers.UserSerializer',
+    },
+    'EMAIL': {
+        # アカウント本登録
+        'activation': 'accounts.email.ActivationEmail',
+        # アカウント本登録完了
+        'confirmation': 'accounts.email.ConfirmationEmail',
+        # パスワードリセット
+        'password_reset': 'accounts.email.PasswordResetEmail',
+        # パスワードリセット完了
+        'password_changed_confirmation': 'accounts.email.PasswordChangedConfirmationEmail',
+        # メールアドレスリセット
+        'username_reset': 'accounts.email.UsernameResetEmail',
+        # メールアドレスリセット完了
+        'username_changed_confirmation': 'accounts.email.UsernameChangedConfirmationEmail',
+    },
+}
