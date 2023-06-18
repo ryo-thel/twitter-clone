@@ -1,0 +1,14 @@
+[run]
+source = .
+# カバレッジを実行しないファイルを設定
+omit =
+    */tests/*
+    */migrations/*
+    */__init__.py
+    */manage.py
+    */config/asgi.py
+    */config/wsgi.py
+
+[report]
+show_missing = True #カバレッジが不足している行を表示
+skip_covered = True #100%カバレッジのあるファイルを除外
