@@ -26,7 +26,7 @@ paths:
             schema:
               type: object
               properties:
-                username:
+                name:
                   type: string
                   description: 名前
                   example: example_user
@@ -50,7 +50,7 @@ paths:
             application/json:
               schema:
                 type: object
-                description: ユーザー
+                description: 仮登録
                 properties:
                   id:
                     type: string
@@ -82,7 +82,6 @@ paths:
                         detail:
                           type: string
                           description: エラー詳細
-
               examples:
                 名前未入力:
                   value:
@@ -124,7 +123,7 @@ paths:
     post:
       operationId: UserCreation
       summary: 本登録
-      description: 本仮登録
+      description: 本登録
       tags:
         - auth
       security:
@@ -145,17 +144,107 @@ paths:
                   example: faefasgist134uaosgh
 
       responses:
-        201:
+        204:
           description: 本登録完了
           content: 
             application/json:
               schema:
                 type: object
-                description: ユーザー
+                description: 本登録完了
+
+        400:
+          description: 仮登録失敗
+          content:
+            application/json:
+              schema:
+                type: object
                 properties:
-                  redirect_url:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          description: エラーコード
+                        detail:
+                          type: string
+                          description: エラー詳細
+              examples:
+                存在しないid:
+                  value:
+                    errors:
+                      - code: "001"
+                        detail: IDが存在しません
+                一致しないtoken:
+                  value:
+                    errors:
+                      - code: "002"
+                        detail: トークンが一致しません
+        403:
+          description: 本登録済み
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          description: エラーコード
+                        detail:
+                          type: string
+                          description: エラー詳細
+              examples:
+                アクセス権限なし:
+                  value:
+                    errors:
+                      - code: "001"
+                        detail: 既に本登録済みです
+
+
+  /auth/jwt/create:
+    post:
+      operationId: Login
+      summary: ログイン
+      description: リフレッシュトークンとアクセストークンを返す
+      tags:
+        - auth
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 名前
+                  example: example_user
+                password:
+                  type: string
+                  description: パスワード
+                  example: gauoyr3e
+      responses:
+        200:
+          description: ログイン成功
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ログイン
+                properties:
+                  access:
                     type: string
-                    description: リダイレクト先のURL(わからないのでとりあえず)
-                    example: http://localhost:8000/api/v1/~~/
+                    description: アクセストークン
+                    example: <jwt_token>
+                  refresh:
+                    type: string
+                    description: リフレッシュトークン
 
-
+            
