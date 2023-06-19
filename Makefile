@@ -33,3 +33,6 @@ migrate:
 
 createsuperuser:
 	docker compose run --rm ${SERVICE_NAME} python3 manage.py createsuperuser
+
+generateschema:
+	docker compose run --rm ${SERVICE_NAME} python3 manage.py spectacular --file schema.yml
