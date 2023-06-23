@@ -172,7 +172,7 @@ else:
     CORS_ORIGIN_WHITELIST = [CLIENT_URL]  # ホワイトリストに設定したCLIENT_URL（今回はNode.js）のみリクエストを許可
     CORS_ALLOWED_ORIGINS = [CLIENT_URL]
 
-AUTH_USER_MODEL = "accounts.UserAccount"
+AUTH_USER_MODEL = "accounts.User"
 
 # ローカル確認用
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -189,7 +189,7 @@ DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 
 DJOSER = {
     # メールアドレスでログイン
-    # 'LOGIN_FIELD': 'email',
+    'LOGIN_FIELD': 'username',
     # アカウント本登録メール
     'SEND_ACTIVATION_EMAIL': True,
     # アカウント本登録完了メール
@@ -212,7 +212,8 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     # カスタムユーザー用シリアライザー
     'SERIALIZERS': {
-        'user_create': 'accounts.serializers.UserSerializer',
+        'user_create': 'accounts.serializers.CustomUserCreateSerializer',
+        'user_create_password_retype': 'accounts.serializers.CustomUserCreatePasswordRetypeSerializer',
         'user': 'accounts.serializers.UserSerializer',
         'current_user': 'accounts.serializers.UserSerializer',
     },
