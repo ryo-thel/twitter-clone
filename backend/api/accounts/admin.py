@@ -10,7 +10,7 @@ class UserAdminCustom(UserAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'name',
+                'username',
                 'email',
                 'password',
                 'is_active',
@@ -24,7 +24,7 @@ class UserAdminCustom(UserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': (
-                'name',
+                'username',
                 'email',
                 'password1',
                 'password2',
@@ -38,7 +38,7 @@ class UserAdminCustom(UserAdmin):
     # ユーザー一覧
     list_display = (
         'id',
-        'name',
+        'username',
         'email',
         'is_active',
     )
