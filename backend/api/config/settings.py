@@ -36,6 +36,8 @@ DEBUG = env.bool("DEBUG")
 ALLOWED_HOSTS = []
 
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -194,13 +196,13 @@ DJOSER = {
     'SEND_ACTIVATION_EMAIL': True,
     # アカウント本登録完了メール
     'SEND_CONFIRMATION_EMAIL': True,
-    # メールアドレス変更完了メール
+    # ユーザー名変更完了メール
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
     # パスワード変更完了メール
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
     # アカウント登録時に確認用パスワード必須
     'USER_CREATE_PASSWORD_RETYPE': True,
-    # メールアドレス変更時に確認用メールアドレス必須
+    # ユーザー名変更時に確認用ユーザー名必須
     'SET_USERNAME_RETYPE': True,
     # パスワード変更時に確認用パスワード必須
     'SET_PASSWORD_RETYPE': True,
@@ -210,6 +212,10 @@ DJOSER = {
     'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
     # パスワードリセット完了用URL
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    # パスワード新規作成時に確認用パスワード必須
+    'USERNAME_RESET_CONFIRM_RETYPE': True,
+    # パスワード新規作成時に確認用パスワード必須
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
     # カスタムユーザー用シリアライザー
     'SERIALIZERS': {
         'user_create': 'accounts.serializers.CustomUserCreateSerializer',
@@ -226,9 +232,9 @@ DJOSER = {
         'password_reset': 'accounts.email.PasswordResetEmail',
         # パスワードリセット完了
         'password_changed_confirmation': 'accounts.email.PasswordChangedConfirmationEmail',
-        # メールアドレスリセット
+        # ユーザー名リセット
         'username_reset': 'accounts.email.UsernameResetEmail',
-        # メールアドレスリセット完了
+        # ユーザー名リセット完了
         'username_changed_confirmation': 'accounts.email.UsernameChangedConfirmationEmail',
     },
 }

@@ -13,7 +13,7 @@ class EmailManager(BaseEmailMessage):
         self.reply_to = kwags.pop('reply_to', [])
         self.from_email = kwags.pop(
             'from_email',
-            'フルスタックチャンネル <' + settings.DEFAULT_FROM_EMAIL + '>'
+            settings.DEFAULT_FROM_EMAIL
         )
         super(BaseEmailMessage, self).send(*args, **kwags)
 
@@ -74,6 +74,7 @@ class UsernameResetEmail(BaseEmailMessage):
         context["uid"] = utils.encode_uid(user.pk)
         context["token"] = default_token_generator.make_token(user)
         context["url"] = settings.DJOSER["USERNAME_RESET_CONFIRM_URL"].format(**context)
+        
         return context
 
 

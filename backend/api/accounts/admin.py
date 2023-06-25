@@ -47,7 +47,7 @@ class UserAdminCustom(UserAdmin):
     # 検索
     search_fields = ('email',)
     # 順番
-    ordering = ('id',)
+    ordering = ('joined_at',)
 
 
 admin.site.register(User, UserAdminCustom)

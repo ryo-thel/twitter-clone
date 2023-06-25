@@ -3,14 +3,157 @@ info:
   title: ''
   version: 0.0.0
 paths:
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
   /api/v1/auth/jwt/create/:
     post:
-      operationId: auth_jwt_create_create
+      operationId: v1_auth_jwt_create_create
       description: |-
         Takes a set of user credentials and returns an access and refresh JSON web
         token pair to prove the authentication of those credentials.
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
@@ -32,12 +175,12 @@ paths:
           description: ''
   /api/v1/auth/jwt/refresh/:
     post:
-      operationId: auth_jwt_refresh_create
+      operationId: v1_auth_jwt_refresh_create
       description: |-
         Takes a refresh type JSON web token and returns an access type JSON web
         token if the refresh token is valid.
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
@@ -59,12 +202,12 @@ paths:
           description: ''
   /api/v1/auth/jwt/verify/:
     post:
-      operationId: auth_jwt_verify_create
+      operationId: v1_auth_jwt_verify_create
       description: |-
         Takes a token and indicates if it is valid.  This view provides no
         information about a token's fitness for a particular use.
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
@@ -86,9 +229,9 @@ paths:
           description: ''
   /api/v1/auth/users/:
     get:
-      operationId: auth_users_list
+      operationId: v1_auth_users_list
       tags:
-      - auth
+      - v1
       security:
       - jwtAuth: []
       responses:
@@ -101,20 +244,20 @@ paths:
                   $ref: '#/components/schemas/User'
           description: ''
     post:
-      operationId: auth_users_create
+      operationId: v1_auth_users_create
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserCreatePasswordRetype'
+              $ref: '#/components/schemas/CustomUserCreatePasswordRetype'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/UserCreatePasswordRetype'
+              $ref: '#/components/schemas/CustomUserCreatePasswordRetype'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UserCreatePasswordRetype'
+              $ref: '#/components/schemas/CustomUserCreatePasswordRetype'
         required: true
       security:
       - jwtAuth: []
@@ -124,20 +267,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserCreatePasswordRetype'
+                $ref: '#/components/schemas/CustomUserCreatePasswordRetype'
           description: ''
   /api/v1/auth/users/{id}/:
     get:
-      operationId: auth_users_retrieve
+      operationId: v1_auth_users_retrieve
       parameters:
       - in: path
         name: id
         schema:
-          type: integer
-        description: A unique integer value identifying this user account.
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
         required: true
       tags:
-      - auth
+      - v1
       security:
       - jwtAuth: []
       responses:
@@ -148,16 +292,17 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     put:
-      operationId: auth_users_update
+      operationId: v1_auth_users_update
       parameters:
       - in: path
         name: id
         schema:
-          type: integer
-        description: A unique integer value identifying this user account.
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
         required: true
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
@@ -180,16 +325,17 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     patch:
-      operationId: auth_users_partial_update
+      operationId: v1_auth_users_partial_update
       parameters:
       - in: path
         name: id
         schema:
-          type: integer
-        description: A unique integer value identifying this user account.
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
         required: true
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
@@ -211,16 +357,17 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     delete:
-      operationId: auth_users_destroy
+      operationId: v1_auth_users_destroy
       parameters:
       - in: path
         name: id
         schema:
-          type: integer
-        description: A unique integer value identifying this user account.
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
         required: true
       tags:
-      - auth
+      - v1
       security:
       - jwtAuth: []
       responses:
@@ -228,9 +375,9 @@ paths:
           description: No response body
   /api/v1/auth/users/activation/:
     post:
-      operationId: auth_users_activation_create
+      operationId: v1_auth_users_activation_create
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
@@ -255,9 +402,9 @@ paths:
           description: ''
   /api/v1/auth/users/me/:
     get:
-      operationId: auth_users_me_retrieve
+      operationId: v1_auth_users_me_retrieve
       tags:
-      - auth
+      - v1
       security:
       - jwtAuth: []
       responses:
@@ -268,9 +415,9 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     put:
-      operationId: auth_users_me_update
+      operationId: v1_auth_users_me_update
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
@@ -293,9 +440,9 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     patch:
-      operationId: auth_users_me_partial_update
+      operationId: v1_auth_users_me_partial_update
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
@@ -317,9 +464,9 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     delete:
-      operationId: auth_users_me_destroy
+      operationId: v1_auth_users_me_destroy
       tags:
-      - auth
+      - v1
       security:
       - jwtAuth: []
       responses:
@@ -327,9 +474,9 @@ paths:
           description: No response body
   /api/v1/auth/users/resend_activation/:
     post:
-      operationId: auth_users_resend_activation_create
+      operationId: v1_auth_users_resend_activation_create
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
@@ -351,66 +498,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SendEmailReset'
-          description: ''
-  /api/v1/auth/users/reset_name/:
-    post:
-      operationId: auth_users_reset_name_create
-      tags:
-      - auth
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SendEmailReset'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/SendEmailReset'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/SendEmailReset'
-        required: true
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SendEmailReset'
-          description: ''
-  /api/v1/auth/users/reset_name_confirm/:
-    post:
-      operationId: auth_users_reset_name_confirm_create
-      tags:
-      - auth
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UsernameResetConfirm'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/UsernameResetConfirm'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/UsernameResetConfirm'
-        required: true
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UsernameResetConfirm'
           description: ''
   /api/v1/auth/users/reset_password/:
     post:
-      operationId: auth_users_reset_password_create
+      operationId: v1_auth_users_reset_password_create
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
@@ -435,20 +528,20 @@ paths:
           description: ''
   /api/v1/auth/users/reset_password_confirm/:
     post:
-      operationId: auth_users_reset_password_confirm_create
+      operationId: v1_auth_users_reset_password_confirm_create
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PasswordResetConfirm'
+              $ref: '#/components/schemas/PasswordResetConfirmRetype'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PasswordResetConfirm'
+              $ref: '#/components/schemas/PasswordResetConfirmRetype'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PasswordResetConfirm'
+              $ref: '#/components/schemas/PasswordResetConfirmRetype'
         required: true
       security:
       - jwtAuth: []
@@ -458,39 +551,67 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PasswordResetConfirm'
+                $ref: '#/components/schemas/PasswordResetConfirmRetype'
           description: ''
-  /api/v1/auth/users/set_name/:
+  /api/v1/auth/users/reset_username/:
     post:
-      operationId: auth_users_set_name_create
+      operationId: v1_auth_users_reset_username_create
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SetUsernameRetype'
+              $ref: '#/components/schemas/SendEmailReset'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/SetUsernameRetype'
+              $ref: '#/components/schemas/SendEmailReset'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/SetUsernameRetype'
+              $ref: '#/components/schemas/SendEmailReset'
         required: true
       security:
       - jwtAuth: []
+      - {}
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SetUsernameRetype'
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /api/v1/auth/users/reset_username_confirm/:
+    post:
+      operationId: v1_auth_users_reset_username_confirm_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirmRetype'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirmRetype'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirmRetype'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsernameResetConfirmRetype'
           description: ''
   /api/v1/auth/users/set_password/:
     post:
-      operationId: auth_users_set_password_create
+      operationId: v1_auth_users_set_password_create
       tags:
-      - auth
+      - v1
       requestBody:
         content:
           application/json:
@@ -512,11 +633,37 @@ paths:
               schema:
                 $ref: '#/components/schemas/SetPasswordRetype'
           description: ''
+  /api/v1/auth/users/set_username/:
+    post:
+      operationId: v1_auth_users_set_username_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetUsernameRetype'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SetUsernameRetype'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SetUsernameRetype'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetUsernameRetype'
+          description: ''
   /api/v1/users/:
     get:
-      operationId: users_list
+      operationId: v1_users_list
       tags:
-      - users
+      - v1
       security:
       - jwtAuth: []
       responses:
@@ -526,7 +673,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
+                  $ref: '#/components/schemas/CustomUser'
           description: ''
 components:
   schemas:
@@ -540,26 +687,14 @@ components:
       required:
       - token
       - uid
-    PasswordResetConfirm:
-      type: object
-      properties:
-        uid:
-          type: string
-        token:
-          type: string
-        new_password:
-          type: string
-      required:
-      - new_password
-      - token
-      - uid
-    PatchedUser:
+    CustomUser:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
           readOnly: true
-        name:
+        username:
           type: string
           title: 名前
           maxLength: 255
@@ -568,6 +703,75 @@ components:
           format: email
           title: メールアドレス
           maxLength: 255
+        joined_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: 登録日時
+      required:
+      - email
+      - id
+      - joined_at
+      - username
+    CustomUserCreatePasswordRetype:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          title: 名前
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          title: メールアドレス
+          maxLength: 255
+        password:
+          type: string
+          writeOnly: true
+        re_password:
+          type: string
+      required:
+      - email
+      - id
+      - password
+      - re_password
+      - username
+    PasswordResetConfirmRetype:
+      type: object
+      properties:
+        uid:
+          type: string
+        token:
+          type: string
+        new_password:
+          type: string
+        re_new_password:
+          type: string
+      required:
+      - new_password
+      - re_new_password
+      - token
+      - uid
+    PatchedUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          title: メールアドレス
+          maxLength: 255
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+          title: 名前
     SendEmailReset:
       type: object
       properties:
@@ -594,20 +798,20 @@ components:
       properties:
         current_password:
           type: string
-        new_name:
+        new_username:
           type: string
           title: 名前
           maxLength: 255
-        re_new_name:
+        re_new_username:
           type: string
       required:
       - current_password
-      - new_name
-      - re_new_name
+      - new_username
+      - re_new_username
     TokenObtainPair:
       type: object
       properties:
-        name:
+        username:
           type: string
           writeOnly: true
         password:
@@ -621,9 +825,9 @@ components:
           readOnly: true
       required:
       - access
-      - name
       - password
       - refresh
+      - username
     TokenRefresh:
       type: object
       properties:
@@ -646,57 +850,35 @@ components:
     User:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          title: 名前
-          maxLength: 255
         email:
           type: string
           format: email
           title: メールアドレス
           maxLength: 255
-      required:
-      - email
-      - id
-      - name
-    UserCreatePasswordRetype:
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-          title: メールアドレス
-          maxLength: 255
-        name:
-          type: string
-          title: 名前
-          maxLength: 255
         id:
-          type: integer
+          type: string
+          format: uuid
           readOnly: true
-        password:
+        username:
           type: string
-          writeOnly: true
-        re_password:
-          type: string
+          readOnly: true
+          title: 名前
       required:
       - email
       - id
-      - name
-      - password
-      - re_password
-    UsernameResetConfirm:
+      - username
+    UsernameResetConfirmRetype:
       type: object
       properties:
-        new_name:
+        new_username:
           type: string
           title: 名前
           maxLength: 255
+        re_new_username:
+          type: string
       required:
-      - new_name
+      - new_username
+      - re_new_username
   securitySchemes:
     jwtAuth:
       type: apiKey
