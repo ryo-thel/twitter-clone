@@ -35,7 +35,7 @@ DEBUG = env.bool("DEBUG")
 
 ALLOWED_HOSTS = []
 
-
+SITE_NAME = "localhost:3000"
 
 
 # Application definition
