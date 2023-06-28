@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Activate } from '../api/authApi';
+import authApi from '../api/authApi';
 import { useParams } from "react-router-dom";
 
 export default function Activation() {
@@ -7,7 +7,7 @@ export default function Activation() {
 
     useEffect(() => {
         if (uid && token) {
-            Activate(uid, token)
+            authApi.Activate(uid, token)
                 .then(data => {
                     console.log('成功しました', data);
                 })
