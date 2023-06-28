@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Activate } from '../api/authApi';
-import useQuery from '../hooks/getParams';
+import { useParams } from "react-router-dom";
 
 export default function Activation() {
-    const { uid, token } = useQuery();
+    const { uid, token } = useParams();
 
     useEffect(() => {
         if (uid && token) {
