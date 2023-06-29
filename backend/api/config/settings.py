@@ -209,7 +209,7 @@ DJOSER = {
     # アカウント本登録用URL
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     # メールアドレスリセット完了用URL
-    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
     # パスワードリセット完了用URL
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     # パスワード新規作成時に確認用パスワード必須
