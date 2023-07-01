@@ -5,24 +5,24 @@ import Header from "./components/Header";
 import LoggedOut from "./components/LoggedOut";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { CookiesProvider, withCookies } from "react-cookie";
+import LoggedIn from "./components/LoggedIn";
+
+const LoginButtonObject = [{ title: "LOG IN", url: "/login" }];
 
 function App() {
   return (
     <Router>
       <div className="App">
-        {/** 変更 **/}
         <CookiesProvider>
-          <Header
-            title="twitter"
-            sections={[{ title: "LOG IN", url: "/login" }]}
-          />
+          <Header title="twitter" sections={LoginButtonObject} />
           <h1>Hello React Router v6</h1>
-          <LoggedOut>
-            <Routes>
-              <Route path="/signup" element={<Signup />} />
-              {/* <Route path="/login" element={<LoggedIn />} /> */}
-            </Routes>
-          </LoggedOut>
+          {/* <LoggedIn></LoggedIn> */}
+          {/* <LoggedOut> */}
+          <Routes>
+            <Route path="/signup" element={<Signup />} />
+            {/* <Route path="/login" element={<LoggedIn />} /> */}
+          </Routes>
+          {/* </LoggedOut> */}
         </CookiesProvider>
       </div>
     </Router>

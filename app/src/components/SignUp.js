@@ -60,7 +60,7 @@ const SignUp = (props) => {
       })
       .then((res) => {
         props.cookies.set("token", res.data.token);
-        window.location.href = "/signup";
+        window.location.href = "/";
         setError("");
       })
       .catch((error) => {
