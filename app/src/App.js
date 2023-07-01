@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Signup from "./components/SignUp";
+import Header from "./components/Header";
+// import LoggedIn from "./components/LoggedIn";
+import LoggedOut from "./components/LoggedOut";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { CookiesProvider, withCookies } from "react-cookie";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        {/** 変更 **/}
+        <CookiesProvider>
+          <Header
+            title="twitter"
+            sections={[{ title: "LOG IN", url: "/login" }]}
+          />
+          <h1>Hello React Router v6</h1>
+          <LoggedOut>
+            <Routes>
+              <Route path="/signup" element={<Signup />} />
+              {/* <Route path="/login" element={<LoggedIn />} /> */}
+            </Routes>
+          </LoggedOut>
+        </CookiesProvider>
+      </div>
+    </Router>
   );
 }
 
-export default App;
+export default withCookies(App);
