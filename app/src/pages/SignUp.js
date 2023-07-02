@@ -7,11 +7,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
+import "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 const BASE_API_END_POINT = `http://localhost:8000/api/v1`;
 
@@ -38,7 +37,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 const SignUp = (props) => {
-  console.log(props);
+  const navigate = useNavigate();
   const [errorMessage, setError] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -51,6 +50,7 @@ const SignUp = (props) => {
       re_password: data.get("re_password"),
     });
 
+    // api/AuthAPI.jsに移動
     const postUri = `${BASE_API_END_POINT}/auth/users/`;
     axios
       .post(postUri, data, {
@@ -60,7 +60,7 @@ const SignUp = (props) => {
       })
       .then((res) => {
         props.cookies.set("token", res.data.token);
-        window.location.href = "/";
+        navigate("/");
         setError("");
       })
       .catch((error) => {
