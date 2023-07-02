@@ -35,6 +35,8 @@ DEBUG = env.bool("DEBUG")
 
 ALLOWED_HOSTS = []
 
+SITE_NAME = "localhost:3000"
+
 
 # Application definition
 
@@ -172,7 +174,7 @@ else:
     CORS_ORIGIN_WHITELIST = [CLIENT_URL]  # ホワイトリストに設定したCLIENT_URL（今回はNode.js）のみリクエストを許可
     CORS_ALLOWED_ORIGINS = [CLIENT_URL]
 
-AUTH_USER_MODEL = "accounts.UserAccount"
+AUTH_USER_MODEL = "accounts.User"
 
 # ローカル確認用
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -189,30 +191,35 @@ DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 
 DJOSER = {
     # メールアドレスでログイン
-    # 'LOGIN_FIELD': 'email',
+    'LOGIN_FIELD': 'username',
     # アカウント本登録メール
     'SEND_ACTIVATION_EMAIL': True,
     # アカウント本登録完了メール
     'SEND_CONFIRMATION_EMAIL': True,
-    # メールアドレス変更完了メール
+    # ユーザー名変更完了メール
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
     # パスワード変更完了メール
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
     # アカウント登録時に確認用パスワード必須
     'USER_CREATE_PASSWORD_RETYPE': True,
-    # メールアドレス変更時に確認用メールアドレス必須
+    # ユーザー名変更時に確認用ユーザー名必須
     'SET_USERNAME_RETYPE': True,
     # パスワード変更時に確認用パスワード必須
     'SET_PASSWORD_RETYPE': True,
     # アカウント本登録用URL
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     # メールアドレスリセット完了用URL
-    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
     # パスワードリセット完了用URL
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    # パスワード新規作成時に確認用パスワード必須
+    'USERNAME_RESET_CONFIRM_RETYPE': True,
+    # パスワード新規作成時に確認用パスワード必須
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
     # カスタムユーザー用シリアライザー
     'SERIALIZERS': {
-        'user_create': 'accounts.serializers.UserSerializer',
+        'user_create': 'accounts.serializers.CustomUserCreateSerializer',
+        'user_create_password_retype': 'accounts.serializers.CustomUserCreatePasswordRetypeSerializer',
         'user': 'accounts.serializers.UserSerializer',
         'current_user': 'accounts.serializers.UserSerializer',
     },
@@ -225,9 +232,9 @@ DJOSER = {
         'password_reset': 'accounts.email.PasswordResetEmail',
         # パスワードリセット完了
         'password_changed_confirmation': 'accounts.email.PasswordChangedConfirmationEmail',
-        # メールアドレスリセット
+        # ユーザー名リセット
         'username_reset': 'accounts.email.UsernameResetEmail',
-        # メールアドレスリセット完了
+        # ユーザー名リセット完了
         'username_changed_confirmation': 'accounts.email.UsernameChangedConfirmationEmail',
     },
 }
