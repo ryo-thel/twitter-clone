@@ -1,6 +1,6 @@
-import { withCookies } from "react-cookie";
+// import { withCookies } from "react-cookie";
 
-const LoggedOut = (props) =>
-  props.cookies.get("token") ? null : props.children;
+// const LoggedOut = (props) =>
+//   props.cookies.get("token") ? null : props.children;
 
-export default withCookies(LoggedOut);
+// export default withCookies(LoggedOut);
