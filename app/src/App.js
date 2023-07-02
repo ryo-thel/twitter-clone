@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import { CookiesProvider, withCookies } from "react-cookie";
 import DefaultLayout from "./components/Layout/DefaultLayout";
 // import LoggedIn from "./components/LoggedIn";
+import Activation from './routes/Activation';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route element={<DefaultLayout />}>
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/activate/:uid/:token" element={<Activation />} />
           </Route>
         </Routes>
       </CookiesProvider>
