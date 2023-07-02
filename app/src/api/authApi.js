@@ -3,10 +3,22 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:8000/api/v1'
 
 const authApi = {
+    Signup : async (data) => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/users/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
     Activate : async (uid, token) => {
         try {
             const response = await axios.post(
-                `${BASE_URL}/auth/users/activation/`, 
+                `${BASE_URL}/auth/users/activation/`,
                 { uid, token }
             );
             return response.data;

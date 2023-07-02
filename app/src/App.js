@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <CookiesProvider>
         <Routes>
-          <Route element={<DefaultLayout />}>
+          <Route element={<DefaultLayout/ >}>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/activate/:uid/:token" element={<Activation />} />
           </Route>

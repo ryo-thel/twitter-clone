@@ -11,8 +11,11 @@ import "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
 
-const BASE_API_END_POINT = `http://localhost:8000/api/v1`;
+import authApi from "../api/authApi";
 
 function Copyright(props) {
   return (
@@ -42,28 +45,23 @@ const SignUp = (props) => {
 
     const data = new FormData(event.currentTarget);
     console.log({
-      name: data.get("name"),
+      username: data.get("username"),
       email: data.get("email"),
       password: data.get("password"),
       re_password: data.get("re_password"),
     });
 
     // api/AuthAPI.jsに移動
-    const postUri = `${BASE_API_END_POINT}/auth/users/`;
-    axios
-      .post(postUri, data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        props.cookies.set("token", res.data.token);
-        navigate("/");
-        setError("");
-      })
-      .catch((error) => {
-        setError(error.response.data);
-      });
+    authApi.Signup(data)
+        .then((res) => {
+          props.cookies.set("token", res.data.token);
+          navigate("/");
+          setError("");
+        })
+        .catch((error) => {
+          console.log(error)
+          setError(error.response.data);
+        });
   };
 
   return (
@@ -97,16 +95,16 @@ const SignUp = (props) => {
               <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="name"
+                  name="username"
                   required
                   fullWidth
-                  id="name"
-                  label="name"
+                  id="username"
+                  label="username"
                   autoFocus
                 />
               </Grid>
-              {errorMessage.name ? (
-                <p className="red">{errorMessage.name}</p>
+              {errorMessage.username ? (
+                <p className="red">{errorMessage.username}</p>
               ) : null}
               <Grid item xs={12}>
                 <TextField
@@ -146,7 +144,7 @@ const SignUp = (props) => {
                   autoComplete="re-new-password"
                 />
               </Grid>
-              {errorMessage.re_passwordpassword ? (
+              {errorMessage.re_password ? (
                 <p className="red">{errorMessage.re_password}</p>
               ) : null}
             </Grid>
