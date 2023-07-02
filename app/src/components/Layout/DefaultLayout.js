@@ -3,7 +3,7 @@ import Header from "../Header";
 
 const LoginButtonObject = [{ title: "LOG IN", url: "/login" }];
 
-export default DefaultLayout = ({ children }) => {
+export default function DefaultLayout({ children }){
   return (
     <>
       <Header title="TwtterClone-C" sections={LoginButtonObject} />
