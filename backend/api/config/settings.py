@@ -219,7 +219,6 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
     # カスタムユーザー用シリアライザー
     'SERIALIZERS': {
-        'user_create': 'accounts.serializers.CustomUserCreateSerializer',
         'user_create_password_retype': 'accounts.serializers.CustomUserCreatePasswordRetypeSerializer',
         'user': 'accounts.serializers.UserSerializer',
         'current_user': 'accounts.serializers.UserSerializer',
