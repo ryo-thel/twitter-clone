@@ -10,12 +10,6 @@ class CustomUserSerializer(UserSerializer):
         model = User
         fields = ('id', 'username', 'email', 'joined_at')
 
-class CustomUserCreateSerializer(UserCreateSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'password')
-
-
 class CustomUserCreatePasswordRetypeSerializer(UserCreatePasswordRetypeSerializer):
     class Meta:
         model = User
