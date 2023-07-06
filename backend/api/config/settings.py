@@ -159,10 +159,10 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {  # simple-jwtの設定
     "AUTH_HEADER_TYPES": ("JWT",),  # 認証のために使用されるヘッダ名
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=3),  # アクセストークンが有効な期間を1日に設定
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=3),  # アクセストークンが有効な期間を3時間に設定
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),  # リフレッシュトークンが有効な期間を7日に設定
-    "ROTATE_REFRESH_TOKENS": True,  # トークン再発行にリフレッシュトークンを含める
-    "BLACKLIST_AFTER_ROTATION": True,  # トークン再発行にリフレッシュトークンがブラックリストに追加される
+    "ROTATE_REFRESH_TOKENS": True,  # トークン再発行にトークンを含める
+    "BLACKLIST_AFTER_ROTATION": True,  # トークン再発行にトークンがブラックリストに追加される
     "UPDATE_LAST_LOGIN": True,  # 最終ログイン日時の更新
 }
 
