@@ -35,7 +35,7 @@ DEBUG = env.bool("DEBUG")
 
 ALLOWED_HOSTS = []
 
-SITE_NAME = "localhost:3000"
+SITE_NAME = env("SITE_NAME")
 
 
 # Application definition
@@ -174,6 +174,18 @@ if DEBUG:
 else:
     CORS_ORIGIN_WHITELIST = [CLIENT_URL]  # ホワイトリストに設定したCLIENT_URL（今回はNode.js）のみリクエストを許可
     CORS_ALLOWED_ORIGINS = [CLIENT_URL]
+# CSRFトークンの設定
+CSRF_TRUSTED_ORIGINS = [CLIENT_URL]
+
+# CORS(クロスドメインリクエスト)でCookieを送信することを許可
+CORS_ALLOW_CREDENTIALS = True
+# HTTPSの設定とクロスドメインの許可設定
+if DEBUG:
+    SESSION_COOKIE_SECURE = False
+else:
+    SESSION_COOKIE_SAMESITE = 'None'
+    SESSION_COOKIE_SECURE = True
+
 
 AUTH_USER_MODEL = "accounts.User"
 
