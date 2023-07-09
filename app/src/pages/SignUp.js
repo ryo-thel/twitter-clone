@@ -44,14 +44,7 @@ const SignUp = (props) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get("username"),
-      email: data.get("email"),
-      password: data.get("password"),
-      re_password: data.get("re_password"),
-    });
 
-    // api/AuthAPI.jsに移動
     authApi.Signup(data)
         .then((res) => {
           props.cookies.set("token", res.data.token);
