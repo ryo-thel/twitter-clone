@@ -36,7 +36,7 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-const SignUp = (props) => {
+const SignUp = () => {
   const navigate = useNavigate();
   const [errorMessage, setError] = useState("");
   const handleSubmit = (event) => {
@@ -46,7 +46,7 @@ const SignUp = (props) => {
 
     authApi.Signup(data)
         .then((res) => {
-          props.cookies.set("token", res.data.token);
+          console.log('成功しました', res);
           navigate("/");
           setError("");
         })
