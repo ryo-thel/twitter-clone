@@ -3,7 +3,12 @@ import SignUp from "./pages/SignUp";
 import { Route, Routes } from "react-router-dom";
 import { CookiesProvider, withCookies } from "react-cookie";
 import DefaultLayout from "./components/Layout/DefaultLayout";
-import Activation from './pages/Activation';
+import { Activation, ResendActivation } from './pages/Activation';
+import Login from "./pages/Login";
+import Logout from "./pages/Logout";
+import SetUsername from "./pages/SetUsername";
+import SetPassword from "./pages/SetPassword";
+import User from "./pages/User"
 
 function App() {
   return (
@@ -13,6 +18,13 @@ function App() {
           <Route element={<DefaultLayout/ >}>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/activate/:uid/:token" element={<Activation />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/setusername" element={<SetUsername/>} />
+            <Route path="/setpassword" element={<SetPassword/>} />
+            <Route path="/user" element={<User />} />
+            <Route path="/resendactivation" element={<ResendActivation />} />
+            <Route path="/" />
           </Route>
         </Routes>
       </CookiesProvider>

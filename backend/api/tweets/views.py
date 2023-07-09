@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework.generics import ListCreateAPIView
+from rest_framework.permissions import IsAuthenticated
+from .models import Tweet
 
-# Create your views here.
+class TweetListCreateView(ListCreateAPIView):
+    queryset = Tweet.objects.all()
+    permission_classes = (IsAuthenticated,)

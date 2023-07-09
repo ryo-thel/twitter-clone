@@ -42,6 +42,7 @@ SITE_NAME = env("SITE_NAME")
 
 INSTALLED_APPS = [
     "accounts",
+    "tweets",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

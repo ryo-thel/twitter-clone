@@ -16,11 +16,6 @@ const Header = (props) => {
   const { sections, title } = props;
   console.log(title);
   console.log(sections);
-  // const token = props.cookies.get("token");
-  // const logout = () => {
-  //   props.cookies.remove("token");
-  //   window.location.href = "/";
-  // };
 
   return (
     <React.Fragment>
