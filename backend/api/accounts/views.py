@@ -2,12 +2,13 @@ from django.contrib.auth import get_user_model
 from django.middleware.csrf import get_token
 from django.http import HttpResponse
 from rest_framework.generics import ListAPIView
-from .serializers import CustomUserSerializer
-from .authentication import CookieJWTAuthentication
 from rest_framework_simplejwt import views
 from rest_framework_simplejwt import exceptions
 from rest_framework.response import Response
 from rest_framework import status, permissions
+
+from .serializers import CustomUserSerializer
+from .authentication import CookieJWTAuthentication
 
 User = get_user_model()
 
@@ -25,7 +26,7 @@ class JWTokenObtainView(views.TokenObtainPairView):
             serializer.is_valid(raise_exception=True)
         except exceptions.TokenError as e:
             raise exceptions.InvalidToken(e.args[0])
-        
+
         response = Response(serializer.validated_data, status=status.HTTP_200_OK)
 
         # Cookieにトークンをセット
@@ -42,11 +43,10 @@ class JWTokenObtainView(views.TokenObtainPairView):
             # 期限は1週間
             max_age=60 * 60 * 24 * 7,
             httponly=True,
-
         )
 
         return response
-    
+
 # JWTのリフレッシュ
 class JWTokenRefreshView(views.TokenRefreshView):
     def post(self, request, *args, **kwargs):
@@ -64,7 +64,7 @@ class JWTokenRefreshView(views.TokenRefreshView):
             serializer.is_valid(raise_exception=True)
         except exceptions.TokenError as e:
             raise exceptions.InvalidToken(e.args[0])
-        
+
         response = Response(serializer.validated_data, status=status.HTTP_200_OK)
 
         response.set_cookie(
@@ -103,11 +103,12 @@ class LogoutView(views.TokenBlacklistView):
         response.data = {"Message": "Logout"}
 
         return response
-    
+
 
 
 def get_csrf_token(request):
     csrf_token = get_token(request)
     response = HttpResponse()
-    response.set_cookie('csrftoken', csrf_token, httponly=True)  # CSRFトークンをHTTPOnlyのクッキーにセット
+    # CSRFトークンをHTTPOnlyのクッキーにセット
+    response.set_cookie('csrftoken', csrf_token, httponly=True)
     return response

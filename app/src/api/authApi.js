@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:8000/api/v1'
 
+axios.defaults.withCredentials = true;
+
 const authApi = {
     Signup : async (data) => {
         try {
@@ -23,20 +25,165 @@ const authApi = {
             );
             return response.data;
         } catch (error) {
-            if (error.response) {
-                console.error(error.response.data);
-                console.error(error.response.status);
-                console.error(error.response.headers);
-                throw error.response.data;
-            } else if (error.request) {
-                console.error(error.request);
-                throw error.request;
-            } else {
-                console.error('Error', error.message);
-                throw error;
-            }
+            throw error;
         }
-    }
+    },
+
+    Login : async (data) => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/jwt/create/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    TokenRefresh : async (data) => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/jwt/refresh/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    Logout : async () => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/logout/`,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    CsrfToken : async (data) => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/get/csrf/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    ResendActivation : async (data) => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/users/resend_activation/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    SetUsername : async (data) => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/users/set_username/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    ResetUsername : async (data) => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/users/reset_username/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    UsernameConfirm : async (data) => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/users/reset_username_confirm/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    SetPassword : async (data) => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/users/set_password/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    ResetPassword : async (data) => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/users/reset_password/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    PasswordConfirm : async (data) => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/users/reset_password_confirm/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    getUser : async () => {
+        try {
+            const response = await axios.get(
+                `${BASE_URL}/auth/users/me/`,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    deleteUser : async (data) => {
+        try {
+            const response = await axios.delete(
+                `${BASE_URL}/auth/users/me/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+
 }
 
 export default authApi

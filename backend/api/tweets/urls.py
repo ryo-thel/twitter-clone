@@ -1,6 +1,6 @@
-# from django.urls import path
-# from .views import
+from django.urls import path
+from .views import TweetListCreateView
 
 urlpatterns = [
-  # path('create/', .as_view()),
+  path('', TweetListCreateView.as_view()),
 ]
