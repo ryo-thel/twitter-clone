@@ -35,7 +35,7 @@ DEBUG = env.bool("DEBUG")
 
 ALLOWED_HOSTS = []
 
-SITE_NAME = "localhost:3000"
+SITE_NAME = env("SITE_NAME")
 
 
 # Application definition
@@ -150,7 +150,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'accounts.authentication.CookieJWTAuthentication',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
@@ -159,10 +159,10 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {  # simple-jwtの設定
     "AUTH_HEADER_TYPES": ("JWT",),  # 認証のために使用されるヘッダ名
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),  # アクセストークンが有効な期間を60分に設定
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=3),  # アクセストークンが有効な期間を3時間に設定
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),  # リフレッシュトークンが有効な期間を7日に設定
-    "ROTATE_REFRESH_TOKENS": True,  # トークン再発行にリフレッシュトークンを含める
-    "BLACKLIST_AFTER_ROTATION": True,  # トークン再発行にリフレッシュトークンがブラックリストに追加される
+    "ROTATE_REFRESH_TOKENS": True,  # トークン再発行にトークンを含める
+    "BLACKLIST_AFTER_ROTATION": True,  # トークン再発行にトークンがブラックリストに追加される
     "UPDATE_LAST_LOGIN": True,  # 最終ログイン日時の更新
 }
 
@@ -170,9 +170,22 @@ SIMPLE_JWT = {  # simple-jwtの設定
 CLIENT_URL = env("CLIENT_URL")
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True  # どのリクエストでも許可
+    CORS_ALLOW_CREDENTIALS = True  # Cookieの送信の許可
 else:
     CORS_ORIGIN_WHITELIST = [CLIENT_URL]  # ホワイトリストに設定したCLIENT_URL（今回はNode.js）のみリクエストを許可
     CORS_ALLOWED_ORIGINS = [CLIENT_URL]
+# CSRFトークンの設定
+CSRF_TRUSTED_ORIGINS = [CLIENT_URL]
+
+# CORS(クロスドメインリクエスト)でCookieを送信することを許可
+CORS_ALLOW_CREDENTIALS = True
+# HTTPSの設定とクロスドメインの許可設定
+if DEBUG:
+    SESSION_COOKIE_SECURE = False
+else:
+    SESSION_COOKIE_SAMESITE = 'None'
+    SESSION_COOKIE_SECURE = True
+
 
 AUTH_USER_MODEL = "accounts.User"
 
@@ -181,12 +194,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # 本番環境用
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = env("EMAIL_HOST")
-EMAIL_PORT = env("EMAIL_PORT")
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
+# EMAIL_HOST = env("EMAIL_HOST")
+# EMAIL_PORT = env("EMAIL_PORT")
+# EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+# EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")
+# DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 
 
 DJOSER = {

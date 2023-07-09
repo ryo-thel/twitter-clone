@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 export default function Activation() {
     const { uid, token } = useParams();
     const [Success, setSuccess] = useState(false);
+    const [errorMessage, setError] = useState("");
 
     useEffect(() => {
         if (uid && token) {
@@ -14,6 +15,7 @@ export default function Activation() {
                     setSuccess(true);
                 })
                 .catch(error => {
+                    setError(error.data);
                     console.log('失敗しました', error);
                 });
         }
