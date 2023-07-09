@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from django.middleware.csrf import get_token
+from django.http import HttpResponse
 from rest_framework.generics import ListAPIView
 from .serializers import CustomUserSerializer
 from .authentication import CookieJWTAuthentication
@@ -101,5 +103,11 @@ class LogoutView(views.TokenBlacklistView):
         response.data = {"Message": "Logout"}
 
         return response
+    
 
 
+def get_csrf_token(request):
+    csrf_token = get_token(request)
+    response = HttpResponse()
+    response.set_cookie('csrftoken', csrf_token, httponly=True)  # CSRFトークンをHTTPOnlyのクッキーにセット
+    return response
