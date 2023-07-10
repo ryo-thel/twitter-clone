@@ -34,7 +34,8 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-const EmailForm = () => {
+const EmailForm = (props) => {
+  const { handleSubmit, errorMessage } = props;
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -51,7 +52,7 @@ const EmailForm = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Resend Email
           </Typography>
           <Box
             component="form"
