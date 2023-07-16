@@ -57,8 +57,8 @@ export default function ResetEmailForm(props) {
               setError(error.response.data);
           });
       }
-      else if (reset_of == "password")
-      authApi.ResetPassword(data)
+      else if (reset_of == "password") {
+        authApi.ResetPassword(data)
           .then((res) => {
               console.log('成功しました', res);
               navigate("/");
@@ -68,6 +68,7 @@ export default function ResetEmailForm(props) {
               console.log(error)
               setError(error.response.data);
           });
+      }
   };
 
   return(

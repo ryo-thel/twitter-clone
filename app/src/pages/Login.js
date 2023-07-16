@@ -122,8 +122,8 @@ const Login = () => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
+                <Link href="/reset_password_email_form" variant="body2">
+                  パスワードをお忘れですか？
                 </Link>
               </Grid>
             </Grid>
