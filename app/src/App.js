@@ -15,13 +15,13 @@ function App() {
     <div className="App">
       <CookiesProvider>
         <Routes>
-          <Route element={<DefaultLayout/ >}>
+          <Route element={<DefaultLayout />}>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/activate/:uid/:token" element={<Activation />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/setusername" element={<SetUsername/>} />
-            <Route path="/setpassword" element={<SetPassword/>} />
+            <Route path="/setusername" element={<SetUsername />} />
+            <Route path="/setpassword" element={<SetPassword />} />
             <Route path="/user" element={<User />} />
             <Route path="/resendactivation" element={<ResendActivation />} />
             <Route path="/" />
