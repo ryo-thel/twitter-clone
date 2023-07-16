@@ -37,11 +37,11 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 
-export function ResetEmailForm(props) {
+export default function ResetEmailForm(props) {
   const { reset_of } = props;
   const navigate = useNavigate();
   const [errorMessage, setError] = useState("");
-  
+
   const handleSubmit = (event) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);

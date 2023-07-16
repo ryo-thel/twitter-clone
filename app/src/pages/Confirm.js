@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 import "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -39,6 +39,7 @@ const defaultTheme = createTheme();
 export function ResetPassword () {
     const { uid, token } = useParams();
     const navigate = useNavigate();
+    const [errorMessage, setError] = useState("");
     const handleSubmit = (event) => {
     event.preventDefault();  // デフォルトでリロードの処理がかかるのを防いでいる
 
@@ -97,7 +98,7 @@ export function ResetPassword () {
                       autoComplete="new-password"
                     />
                   </Grid>
-                  {errorMessage.password ? (
+                  {errorMessage.new_password ? (
                     <p className="red">{errorMessage.password}</p>
                   ) : null}
                   <Grid item xs={12}>
@@ -111,7 +112,7 @@ export function ResetPassword () {
                       autoComplete="re-new-password"
                     />
                   </Grid>
-                  {errorMessage.password ? (
+                  {errorMessage.re_new_password ? (
                     <p className="red">{errorMessage.password}</p>
                   ) : null}
                 </Grid>
@@ -121,7 +122,7 @@ export function ResetPassword () {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Login
+                  Change Password
                 </Button>
                 <Grid container justifyContent="flex-end">
                 </Grid>
@@ -137,6 +138,7 @@ export function ResetPassword () {
 export function ResetUsername () {
   const { uid, token } = useParams();
   const navigate = useNavigate();
+  const [errorMessage, setError] = useState("");
   const handleSubmit = (event) => {
   event.preventDefault();  // デフォルトでリロードの処理がかかるのを防いでいる
 
@@ -195,7 +197,7 @@ export function ResetUsername () {
                   autoFocus
                 />
               </Grid>
-              {errorMessage.username ? (
+              {errorMessage.new_username ? (
                 <p className="red">{errorMessage.username}</p>
               ) : null}
               <Grid item xs={12}>
@@ -209,7 +211,7 @@ export function ResetUsername () {
                   autoFocus
                 />
               </Grid>
-              {errorMessage.username ? (
+              {errorMessage.re_new_username ? (
                 <p className="red">{errorMessage.username}</p>
               ) : null}
               </Grid>
@@ -219,7 +221,7 @@ export function ResetUsername () {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Login
+                Change Username
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
