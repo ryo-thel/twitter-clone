@@ -12,8 +12,6 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 
-import authApi from "../api/authApi";
-
 function Copyright(props) {
   return (
     <Typography
@@ -52,7 +50,7 @@ const EmailForm = (props) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Resend Email
+            Email Form
           </Typography>
           <Box
             component="form"
@@ -62,6 +60,9 @@ const EmailForm = (props) => {
           >
             {errorMessage.non_field_errors ? (
               <p className="red">{errorMessage.non_field_errors}</p>
+            ) : null}
+            {errorMessage[0] ? (
+              <p className="red">{errorMessage[0]}</p>
             ) : null}
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -88,9 +89,6 @@ const EmailForm = (props) => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
               </Grid>
             </Grid>
           </Box>
