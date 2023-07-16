@@ -27,9 +27,9 @@ function App() {
             <Route path="/user" element={<User />} />
             <Route path="/resendactivation" element={<ResendActivation />} />
             <Route path="/reset_password_email_form" element={<ResetEmailForm reset_of="password" />} />
-            <Route path="/reset_password_confirm/:uid/:token" element={<ResetPassword />} />
+            <Route path="/password/reset/confirm/:uid/:token" element={<ResetPassword />} />
             <Route path="/reset_username_email_form" element={<ResetEmailForm reset_of="username"/>} />
-            <Route path="/reset_username_confirm/:uid/:token" element={<ResetUsername />} />
+            <Route path="/username/reset/confirm/:uid/:token" element={<ResetUsername />} />
             <Route path="/" />
           </Route>
         </Routes>
