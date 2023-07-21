@@ -94,7 +94,7 @@ const SetUsername = () => {
                   autoFocus
                 />
               </Grid>
-              {errorMessage.username ? (
+              {errorMessage.new_username ? (
                 <p className="red">{errorMessage.username}</p>
               ) : null}
               <Grid item xs={12}>
@@ -108,7 +108,7 @@ const SetUsername = () => {
                   autoFocus
                 />
               </Grid>
-              {errorMessage.username ? (
+              {errorMessage.re_new_username ? (
                 <p className="red">{errorMessage.username}</p>
               ) : null}
               <Grid item xs={12}>
@@ -122,7 +122,7 @@ const SetUsername = () => {
                   autoComplete="current-password"
                 />
               </Grid>
-              {errorMessage.password ? (
+              {errorMessage.current_password ? (
                 <p className="red">{errorMessage.password}</p>
               ) : null}
             </Grid>

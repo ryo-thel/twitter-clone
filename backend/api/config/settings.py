@@ -230,6 +230,8 @@ DJOSER = {
     'USERNAME_RESET_CONFIRM_RETYPE': True,
     # パスワード新規作成時に確認用パスワード必須
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
+    'USERNAME_RESET_SHOW_EMAIL_NOT_FOUND': True,
+    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
     # カスタムユーザー用シリアライザー
     'SERIALIZERS': {
         'user_create_password_retype': 'accounts.serializers.CustomUserCreatePasswordRetypeSerializer',

@@ -94,7 +94,7 @@ const SetPassword = () => {
                   autoComplete="new-password"
                 />
               </Grid>
-              {errorMessage.password ? (
+              {errorMessage.new_password ? (
                 <p className="red">{errorMessage.password}</p>
               ) : null}
               <Grid item xs={12}>
@@ -108,7 +108,7 @@ const SetPassword = () => {
                   autoComplete="re-new-password"
                 />
               </Grid>
-              {errorMessage.password ? (
+              {errorMessage.re_new_password ? (
                 <p className="red">{errorMessage.password}</p>
               ) : null}
               <Grid item xs={12}>
@@ -122,7 +122,7 @@ const SetPassword = () => {
                   autoComplete="current-password"
                 />
               </Grid>
-              {errorMessage.password ? (
+              {errorMessage.current_password ? (
                 <p className="red">{errorMessage.password}</p>
               ) : null}
             </Grid>
