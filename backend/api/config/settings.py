@@ -236,6 +236,10 @@ DJOSER = {
         'user': 'accounts.serializers.UserSerializer',
         'current_user': 'accounts.serializers.UserSerializer',
     },
+    # デフォルトのパーミッションクラスの変更
+    'PERMISSIONS': {
+        'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
+    },
     'EMAIL': {
         # アカウント本登録
         'activation': 'accounts.email.ActivationEmail',
