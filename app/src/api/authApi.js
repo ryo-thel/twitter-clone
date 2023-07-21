@@ -53,6 +53,17 @@ const authApi = {
         }
     },
 
+    TokenVerify : async () => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/jwt/verify/`,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
     Logout : async () => {
         try {
             const response = await axios.post(
