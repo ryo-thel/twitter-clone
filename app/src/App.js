@@ -10,7 +10,8 @@ import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import SetUsername from "./pages/SetUsername";
 import SetPassword from "./pages/SetPassword";
-import User from "./pages/User"
+import User from "./pages/User";
+import Home from "./pages/Home";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
             <Route path="/password/reset/confirm/:uid/:token" element={<ResetPassword />} />
             <Route path="/reset_username_email_form" element={<ResetEmailForm reset_of="username"/>} />
             <Route path="/username/reset/confirm/:uid/:token" element={<ResetUsername />} />
-            <Route path="/" />
+            <Route path="/" element={<Home />}/>
           </Route>
         </Routes>
       </CookiesProvider>
