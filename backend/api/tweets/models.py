@@ -14,4 +14,3 @@ class Tweet(models.Model):
         related_name="tweets"
     )
     created_at = models.DateTimeField(verbose_name="作成日時", auto_now_add=True)
-
