@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8000/api/v1'
+const BASE_URL = 'https://testapi.ryoserver.com/api/v1'
 
 axios.defaults.withCredentials = true;
 
@@ -46,6 +46,17 @@ const authApi = {
             const response = await axios.post(
                 `${BASE_URL}/auth/jwt/refresh/`,
                 data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    TokenVerify : async () => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/auth/jwt/verify/`,
             );
             return response;
         } catch (error) {

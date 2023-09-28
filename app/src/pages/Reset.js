@@ -15,6 +15,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 
 import authApi from "../api/authApi";
+import EmailForm from "../components/EmailForm";
 
 function Copyright(props) {
   return (
@@ -75,5 +76,3 @@ export default function ResetEmailForm(props) {
       <EmailForm handleSubmit={handleSubmit} errorMessage={errorMessage} />
   )
 }
-
-

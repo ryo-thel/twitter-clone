@@ -33,7 +33,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 SITE_NAME = env("SITE_NAME")
 
@@ -174,7 +174,7 @@ if DEBUG:
     CORS_ALLOW_CREDENTIALS = True  # Cookieの送信の許可
 else:
     CORS_ORIGIN_WHITELIST = [CLIENT_URL]  # ホワイトリストに設定したCLIENT_URL（今回はNode.js）のみリクエストを許可
-    CORS_ALLOWED_ORIGINS = [CLIENT_URL]
+    CORS_ALLOW_ORIGINS = [CLIENT_URL]
 # CSRFトークンの設定
 CSRF_TRUSTED_ORIGINS = [CLIENT_URL]
 
@@ -191,10 +191,10 @@ else:
 AUTH_USER_MODEL = "accounts.User"
 
 # ローカル確認用
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # 本番環境用
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
@@ -255,5 +255,28 @@ DJOSER = {
         'username_reset': 'accounts.email.UsernameResetEmail',
         # ユーザー名リセット完了
         'username_changed_confirmation': 'accounts.email.UsernameChangedConfirmationEmail',
+    },
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'error.log'),
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'INFO',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
     },
 }
