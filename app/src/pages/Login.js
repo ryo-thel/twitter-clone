@@ -40,9 +40,10 @@ const defaultTheme = createTheme();
 const Login = () => {
     const navigate = useNavigate();
     const [errorMessage, setError] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const handleSubmit = (event) => {
       event.preventDefault();  // デフォルトでリロードの処理がかかるのを防いでいる
-
+      setIsSubmitting(true);
       const data = new FormData(event.currentTarget);
 
       authApi.Login(data)
@@ -52,12 +53,12 @@ const Login = () => {
               onClose: () => navigate("/"),  // Redirect to home on toast close
               autoClose: 2000,  // Set autoClose time
             });
-            navigate("/");
             setError("");
         })
         .catch((error) => {
             console.log(error)
             setError(error.response.data);
+            setIsSubmitting(false);
         });
     };
 
@@ -123,6 +124,7 @@ const Login = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={isSubmitting}
             >
               Login
             </Button>

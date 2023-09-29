@@ -42,8 +42,10 @@ const defaultTheme = createTheme();
 const SignUp = () => {
   const navigate = useNavigate();
   const [errorMessage, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
 
     const data = new FormData(event.currentTarget);
 
@@ -59,6 +61,7 @@ const SignUp = () => {
         .catch((error) => {
           console.log(error)
           setError(error.response.data);
+          setIsSubmitting(false);
         });
   };
 
@@ -151,6 +154,7 @@ const SignUp = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={isSubmitting}
             >
               Sign Up
             </Button>

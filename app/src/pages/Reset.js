@@ -44,9 +44,11 @@ export default function ResetEmailForm(props) {
   const { reset_of } = props;
   const navigate = useNavigate();
   const [errorMessage, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (event) => {
       event.preventDefault();
+      setIsSubmitting(true);
       const data = new FormData(event.currentTarget);
       if (reset_of == "username") {
         authApi.ResetUsername(data)
@@ -61,6 +63,7 @@ export default function ResetEmailForm(props) {
           .catch((error) => {
               console.log(error)
               setError(error.response.data);
+              setIsSubmitting(false);
           });
       }
       else if (reset_of == "password") {
@@ -76,6 +79,7 @@ export default function ResetEmailForm(props) {
           .catch((error) => {
               console.log(error)
               setError(error.response.data);
+              setIsSubmitting(false);
           });
       }
   };

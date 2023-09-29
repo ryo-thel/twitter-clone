@@ -33,7 +33,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 const EmailForm = (props) => {
-  const { handleSubmit, errorMessage } = props;
+  const { handleSubmit, errorMessage, isSubmitting } = props;
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -84,6 +84,7 @@ const EmailForm = (props) => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={isSubmitting}
             >
               Send
             </Button>

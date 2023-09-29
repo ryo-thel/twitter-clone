@@ -42,9 +42,10 @@ export function ResetPassword () {
     const { uid, token } = useParams();
     const navigate = useNavigate();
     const [errorMessage, setError] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const handleSubmit = (event) => {
     event.preventDefault();  // デフォルトでリロードの処理がかかるのを防いでいる
-
+    setIsSubmitting(true);
     const data = new FormData(event.currentTarget);
     data.append("uid", uid);
     data.append("token", token);
@@ -61,6 +62,7 @@ export function ResetPassword () {
         .catch((error) => {
             console.log(error)
             setError(error.response.data);
+            setIsSubmitting(false);
         });
     };
 
@@ -126,6 +128,7 @@ export function ResetPassword () {
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  disabled={isSubmitting}
                 >
                   Change Password
                 </Button>
@@ -144,9 +147,10 @@ export function ResetUsername () {
   const { uid, token } = useParams();
   const navigate = useNavigate();
   const [errorMessage, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = (event) => {
   event.preventDefault();  // デフォルトでリロードの処理がかかるのを防いでいる
-
+  setIsSubmitting(true);
   const data = new FormData(event.currentTarget);
   data.append("uid", uid);
   data.append("token", token);
@@ -163,6 +167,7 @@ export function ResetUsername () {
       .catch((error) => {
           console.log(error)
           setError(error.response.data);
+          setIsSubmitting(false);
       });
   };
 
@@ -228,6 +233,7 @@ export function ResetUsername () {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={isSubmitting}
               >
                 Change Username
               </Button>

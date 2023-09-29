@@ -40,9 +40,10 @@ const defaultTheme = createTheme();
 const SetUsername = () => {
     const navigate = useNavigate();
     const [errorMessage, setError] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const handleSubmit = (event) => {
     event.preventDefault();  // デフォルトでリロードの処理がかかるのを防いでいる
-
+    setIsSubmitting(true);
     const data = new FormData(event.currentTarget);
 
     authApi.SetUsername(data)
@@ -57,6 +58,7 @@ const SetUsername = () => {
         .catch((error) => {
             console.log(error)
             setError(error.response.data);
+            setIsSubmitting(false);
         });
     };
 
@@ -136,6 +138,7 @@ const SetUsername = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={isSubmitting}
             >
               Change Username
             </Button>

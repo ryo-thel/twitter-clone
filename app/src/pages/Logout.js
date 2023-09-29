@@ -32,11 +32,7 @@ const Logout = () => {
     }
   };
 
-  return (
-    <div>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
-  );
+  return null;
 };
 
 export default Logout;

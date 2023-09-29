@@ -9,7 +9,7 @@ const ResetPasswordObject = { title: "Reset Password", url: "/reset_password_ema
 const ResetUsernameObject = { title: "Reset Username", url: "/reset_username_email_form"};
 const UserObject = { title: "User Profile", url: "/user" };
 const sectionListLogin = [LoginButtonObject, ResetPasswordObject, ResetUsernameObject];
-const sectionListLogout = [LogoutButtonObject, ResetPasswordObject, ResetUsernameObject, UserObject];
+const sectionListLogout = [LogoutButtonObject, UserObject];
 
 export default function DefaultLayout(){
   const [isLoggedIn, setIsLoggedIn] = useState(false);
