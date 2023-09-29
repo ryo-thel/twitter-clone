@@ -39,6 +39,7 @@ const defaultTheme = createTheme();
 const SignUp = () => {
   const navigate = useNavigate();
   const [errorMessage, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -47,6 +48,7 @@ const SignUp = () => {
     authApi.Signup(data)
         .then((res) => {
           console.log('成功しました', res);
+          setSuccessMessage("アクティベーションメールを送信しました")
           navigate("/");
           setError("");
         })
@@ -80,6 +82,9 @@ const SignUp = () => {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
+            {successMessage && (
+              <p className="success">{successMessage}</p>
+            )}
             {errorMessage.non_field_errors ? (
               <p className="red">{errorMessage.non_field_errors}</p>
             ) : null}
