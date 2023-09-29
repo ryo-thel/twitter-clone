@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import authApi from '../api/authApi';
+import { toast } from 'react-toastify';  // Import toastify
+import 'react-toastify/dist/ReactToastify.css';  // Import toastify css
 import { useParams, useNavigate } from "react-router-dom";
 import EmailForm from '../components/EmailForm';
 import Avatar from "@mui/material/Avatar";
@@ -81,8 +83,6 @@ function Copyright(props) {
   );
 }
 
-const defaultTheme = createTheme();
-
 export function ResendActivation() {
     const navigate = useNavigate();
     const [errorMessage, setError] = useState("");
@@ -93,7 +93,10 @@ export function ResendActivation() {
         authApi.ResendActivation(data)
             .then((res) => {
                 console.log('成功しました', res);
-                navigate("/");
+                toast.success('アクティベーションメールを再送信しました', {
+                  onClose: () => navigate("/"),  // Redirect to home on toast close
+                  autoClose: 2000,  // Set autoClose time
+                });
                 setError("");
             })
             .catch((error) => {

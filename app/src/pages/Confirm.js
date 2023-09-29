@@ -15,6 +15,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 
 import authApi from "../api/authApi";
+import { toast } from 'react-toastify';  // Import toastify
+import 'react-toastify/dist/ReactToastify.css';  // Import toastify css
 
 function Copyright(props) {
   return (
@@ -50,7 +52,10 @@ export function ResetPassword () {
     authApi.PasswordConfirm(data)
         .then((res) => {
             console.log('成功しました', res);
-            navigate("/");
+            toast.success('リセットが完了しました', {
+              onClose: () => navigate("/"),  // Redirect to home on toast close
+              autoClose: 2000,  // Set autoClose time
+            });
             setError("");
         })
         .catch((error) => {
@@ -149,7 +154,10 @@ export function ResetUsername () {
   authApi.UsernameConfirm(data)
       .then((res) => {
           console.log('成功しました', res);
-          navigate("/");
+          toast.success('リセットメールを送信しました', {
+            onClose: () => navigate("/"),  // Redirect to home on toast close
+            autoClose: 2000,  // Set autoClose time
+          });
           setError("");
       })
       .catch((error) => {

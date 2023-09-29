@@ -14,6 +14,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 
 import authApi from "../api/authApi";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';  // Import toastify CSS
 
 function Copyright(props) {
     return (
@@ -46,7 +48,10 @@ const SetUsername = () => {
     authApi.SetUsername(data)
         .then((res) => {
             console.log('成功しました', res);
-            navigate("/");
+            toast.success('変更しました', {
+              onClose: () => navigate("/"),  // Redirect to home on toast close
+              autoClose: 2000,  // Set autoClose time
+            });
             setError("");
         })
         .catch((error) => {
@@ -95,7 +100,7 @@ const SetUsername = () => {
                 />
               </Grid>
               {errorMessage.new_username ? (
-                <p className="red">{errorMessage.username}</p>
+                <p className="red">{errorMessage.new_username}</p>
               ) : null}
               <Grid item xs={12}>
                 <TextField
@@ -109,7 +114,7 @@ const SetUsername = () => {
                 />
               </Grid>
               {errorMessage.re_new_username ? (
-                <p className="red">{errorMessage.username}</p>
+                <p className="red">{errorMessage.re_new_username}</p>
               ) : null}
               <Grid item xs={12}>
                 <TextField
@@ -123,7 +128,7 @@ const SetUsername = () => {
                 />
               </Grid>
               {errorMessage.current_password ? (
-                <p className="red">{errorMessage.password}</p>
+                <p className="red">{errorMessage.current_password}</p>
               ) : null}
             </Grid>
             <Button

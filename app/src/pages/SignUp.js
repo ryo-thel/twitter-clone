@@ -15,6 +15,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 
 import authApi from "../api/authApi";
+import { toast } from 'react-toastify';  // Import toastify
+import 'react-toastify/dist/ReactToastify.css';  // Import toastify css
+
 
 function Copyright(props) {
   return (
@@ -39,7 +42,6 @@ const defaultTheme = createTheme();
 const SignUp = () => {
   const navigate = useNavigate();
   const [errorMessage, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -48,8 +50,10 @@ const SignUp = () => {
     authApi.Signup(data)
         .then((res) => {
           console.log('成功しました', res);
-          setSuccessMessage("アクティベーションメールを送信しました")
-          navigate("/");
+          toast.success('アクティベーションメールを送信しました', {
+            onClose: () => navigate("/"),  // Redirect to home on toast close
+            autoClose: 2000,  // Set autoClose time
+          });
           setError("");
         })
         .catch((error) => {
@@ -82,9 +86,6 @@ const SignUp = () => {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
-            {successMessage && (
-              <p className="success">{successMessage}</p>
-            )}
             {errorMessage.non_field_errors ? (
               <p className="red">{errorMessage.non_field_errors}</p>
             ) : null}

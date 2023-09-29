@@ -16,6 +16,8 @@ import Typography from '@mui/material/Typography';
 
 import authApi from "../api/authApi";
 import EmailForm from "../components/EmailForm";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';  // Import toastify CSS
 
 function Copyright(props) {
   return (
@@ -50,7 +52,10 @@ export default function ResetEmailForm(props) {
         authApi.ResetUsername(data)
           .then((res) => {
               console.log('成功しました', res);
-              navigate("/");
+              toast.success('リセットメールを送信しました', {
+                onClose: () => navigate("/"),  // Redirect to home on toast close
+                autoClose: 2000,  // Set autoClose time
+              });
               setError("");
           })
           .catch((error) => {
@@ -62,7 +67,10 @@ export default function ResetEmailForm(props) {
         authApi.ResetPassword(data)
           .then((res) => {
               console.log('成功しました', res);
-              navigate("/");
+              toast.success('リセットメールを送信しました', {
+                onClose: () => navigate("/"),  // Redirect to home on toast close
+                autoClose: 2000,  // Set autoClose time
+              });
               setError("");
           })
           .catch((error) => {
@@ -73,6 +81,6 @@ export default function ResetEmailForm(props) {
   };
 
   return(
-      <EmailForm handleSubmit={handleSubmit} errorMessage={errorMessage} />
+    <EmailForm handleSubmit={handleSubmit} errorMessage={errorMessage} />
   )
 }

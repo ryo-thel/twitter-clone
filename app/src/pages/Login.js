@@ -14,6 +14,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 
 import authApi from "../api/authApi";
+import { toast } from 'react-toastify';  // Import toastify
+import 'react-toastify/dist/ReactToastify.css';  // Import toastify css
 
 function Copyright(props) {
     return (
@@ -39,13 +41,17 @@ const Login = () => {
     const navigate = useNavigate();
     const [errorMessage, setError] = useState("");
     const handleSubmit = (event) => {
-    event.preventDefault();  // デフォルトでリロードの処理がかかるのを防いでいる
+      event.preventDefault();  // デフォルトでリロードの処理がかかるのを防いでいる
 
-    const data = new FormData(event.currentTarget);
+      const data = new FormData(event.currentTarget);
 
-    authApi.Login(data)
+      authApi.Login(data)
         .then((res) => {
             console.log('成功しました', res);
+            toast.success('ログイン成功', {
+              onClose: () => navigate("/"),  // Redirect to home on toast close
+              autoClose: 2000,  // Set autoClose time
+            });
             navigate("/");
             setError("");
         })
