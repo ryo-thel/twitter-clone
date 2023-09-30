@@ -118,6 +118,9 @@ const Login = () => {
               {errorMessage.password ? (
                 <p className="red">{errorMessage.password}</p>
               ) : null}
+              {errorMessage ? (
+              <p className="red">{errorMessage}</p>
+            ) : null}
             </Grid>
             <Button
               type="submit"
