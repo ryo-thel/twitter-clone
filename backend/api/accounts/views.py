@@ -2,12 +2,13 @@ from django.contrib.auth import get_user_model
 from django.middleware.csrf import get_token
 from django.http import HttpResponse
 from rest_framework.generics import ListAPIView
+from rest_framework.views import APIView
 from rest_framework_simplejwt import views
 from rest_framework_simplejwt import exceptions
 from rest_framework.response import Response
 from rest_framework import status, permissions
 
-from .serializers import CustomUserSerializer
+from .serializers import CustomUserSerializer, ProfileSettingsSerializer
 from .authentication import CookieJWTAuthentication
 
 User = get_user_model()
@@ -132,3 +133,14 @@ def get_csrf_token(request):
     # CSRFトークンをHTTPOnlyのクッキーにセット
     response.set_cookie('csrftoken', csrf_token, httponly=True)
     return response
+
+class ProfileSettingsView(APIView):
+
+    def post(self, request):
+        serializer = ProfileSettingsSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            # Process the data
+            return Response({'message': 'Profile settings updated successfully.'}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserList, JWTokenObtainView, JWTokenRefreshView, JWTokenVerifyView, LogoutView, get_csrf_token
+from .views import UserList, JWTokenObtainView, JWTokenRefreshView, JWTokenVerifyView, LogoutView, get_csrf_token, ProfileSettingsView
 
 
 urlpatterns = [
@@ -8,5 +8,6 @@ urlpatterns = [
     path('auth/jwt/refresh/', JWTokenRefreshView.as_view()),
     path('auth/jwt/verify/', JWTokenVerifyView.as_view()),
     path('auth/logout/', LogoutView.as_view()),
+    path('profile/', ProfileSettingsView.as_view()),
     path('get/csrf/', get_csrf_token),
 ]
