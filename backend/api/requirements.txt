@@ -12,3 +12,4 @@ black==23.3.0
 django-debug-toolbar==4.1.0
 psycopg2-binary==2.9.6
 gunicorn
+Pillow

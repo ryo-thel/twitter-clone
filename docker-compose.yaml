@@ -20,6 +20,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./backend/api:/code
+      - images:/backend/api/media/
     env_file:
       - backend/.env
     command: [
@@ -54,3 +55,4 @@ services:
 volumes:
   postgres_data:
   node_modules:
+  images:
