@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 import uuid
-
+from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
@@ -45,12 +45,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
     
 
-from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
-
 class UserProfile(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE, related_name='profile')
     icon = models.ImageField(
-        upload_to='avatars/', 
+        upload_to='icon/', 
         validators=[
             FileExtensionValidator(
                 allowed_extensions=['jpg', 'jpeg', 'png'],
@@ -65,12 +63,10 @@ class UserProfile(models.Model):
         verbose_name='Account Name'
     )
     bio = models.TextField(
-        max_length=1000, 
+        max_length=255, 
         blank=True, 
         verbose_name='Bio'
     )
 
     def __str__(self):
-        return self.account_name
-
-    
+        return self.account_name 
