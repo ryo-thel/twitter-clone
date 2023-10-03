@@ -15,6 +15,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 
 import authApi from "../api/authApi";
+import { toast } from 'react-toastify';  // Import toastify
+import 'react-toastify/dist/ReactToastify.css';  // Import toastify css
+
 
 function Copyright(props) {
   return (
@@ -39,27 +42,26 @@ const defaultTheme = createTheme();
 const SignUp = () => {
   const navigate = useNavigate();
   const [errorMessage, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
 
     const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get("username"),
-      email: data.get("email"),
-      password: data.get("password"),
-      re_password: data.get("re_password"),
-    });
 
-    // api/AuthAPI.jsに移動
     authApi.Signup(data)
         .then((res) => {
           console.log('成功しました', res);
-          navigate("/");
+          toast.success('アクティベーションメールを送信しました', {
+            onClose: () => navigate("/"),  // Redirect to home on toast close
+            autoClose: 2000,  // Set autoClose time
+          });
           setError("");
         })
         .catch((error) => {
           console.log(error)
           setError(error.response.data);
+          setIsSubmitting(false);
         });
   };
 
@@ -152,6 +154,7 @@ const SignUp = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={isSubmitting}
             >
               Sign Up
             </Button>

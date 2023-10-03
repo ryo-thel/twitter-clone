@@ -14,6 +14,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 
 import authApi from "../api/authApi";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';  // Import toastify CSS
 
 function Copyright(props) {
     return (
@@ -38,20 +40,25 @@ const defaultTheme = createTheme();
 const SetPassword = () => {
     const navigate = useNavigate();
     const [errorMessage, setError] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const handleSubmit = (event) => {
     event.preventDefault();  // デフォルトでリロードの処理がかかるのを防いでいる
-
+    setIsSubmitting(true);
     const data = new FormData(event.currentTarget);
 
     authApi.SetPassword(data)
         .then((res) => {
             console.log('成功しました', res);
-            navigate("/");
+            toast.success('変更しました', {
+              onClose: () => navigate("/"),  // Redirect to home on toast close
+              autoClose: 2000,  // Set autoClose time
+            });
             setError("");
         })
         .catch((error) => {
             console.log(error)
             setError(error.response.data);
+            setIsSubmitting(false);
         });
     };
 
@@ -95,7 +102,7 @@ const SetPassword = () => {
                 />
               </Grid>
               {errorMessage.new_password ? (
-                <p className="red">{errorMessage.password}</p>
+                <p className="red">{errorMessage.new_password}</p>
               ) : null}
               <Grid item xs={12}>
                 <TextField
@@ -109,7 +116,7 @@ const SetPassword = () => {
                 />
               </Grid>
               {errorMessage.re_new_password ? (
-                <p className="red">{errorMessage.password}</p>
+                <p className="red">{errorMessage.re_new_password}</p>
               ) : null}
               <Grid item xs={12}>
                 <TextField
@@ -123,7 +130,7 @@ const SetPassword = () => {
                 />
               </Grid>
               {errorMessage.current_password ? (
-                <p className="red">{errorMessage.password}</p>
+                <p className="red">{errorMessage.current_password}</p>
               ) : null}
             </Grid>
             <Button
@@ -131,16 +138,10 @@ const SetPassword = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={isSubmitting}
             >
-              Login
+              Change Password
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

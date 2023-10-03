@@ -82,6 +82,26 @@ class JWTokenRefreshView(views.TokenRefreshView):
 
         return response
 
+class JWTokenVerifyView(views.TokenVerifyView):
+    authentication_classes = (CookieJWTAuthentication,)
+
+    def post(self, request, *args, **kwargs):
+        # Cookieからアクセストークンを取得
+        access_token = request.COOKIES.get('access_token')
+        if access_token is None:
+            return Response({'error': 'No access token'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # リクエストにアクセストークンを含めなおす
+        request.data['token'] = access_token
+
+        response = super().post(request, *args, **kwargs)
+
+        # 検証が成功した場合のレスポンスを変更
+        if response.status_code == status.HTTP_200_OK:
+            response.data = {"token": "ログイン中"}
+
+        return response
+    
 class LogoutView(views.TokenBlacklistView):
     authentication_classes = (CookieJWTAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)

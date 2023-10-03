@@ -1,34 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import authApi from '../api/authApi';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Logout = () => {
-    const [Success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        authApi.Logout()
-            .then(data => {
-                console.log('成功しました', data);
-                setSuccess(true);
-            })
-            .catch(error => {
-                console.log('失敗しました', error);
-            });
-        });
+  const handleLogout = () => {
+    const userConfirmed = window.confirm('ログアウトしますか?');
 
-    if (Success) {
-        return (
-            <div>
-                <h1>ログアウト完了</h1>
-            </div>
-        )
-    } else {
-        return (
-            <div>
-                <h1>もう一度やり直してください</h1>
-            </div>
-        )
+    if (!userConfirmed) {
+      navigate('/');
+      return;
     }
 
-}
+    // Proceed with logout
+    authApi.Logout()
+      .then(data => {
+        console.log('成功しました', data);
+        // Display success toast
+        toast.success('ログアウト完了', {
+          onClose: () => navigate("/login"),  // Redirect to login on toast close
+          autoClose: 2000,  // Set autoClose time
+        });
+      })
+      .catch(error => {
+        console.log('失敗しました', error);
+        // Display error toast
+        toast.error('ログアウト失敗', {
+          onClose: () => navigate("/"),
+          autoClose: 2000,  // Set autoClose time
+        });
+      });
+  };
 
-export default (Logout);
+  return (
+    <div>
+      <button onClick={handleLogout}>ログアウト</button>
+      <button onClick={() => navigate("/")}>キャンセル</button>
+    </div>
+  );
+};
+
+export default Logout;

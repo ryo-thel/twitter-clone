@@ -14,6 +14,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 
 import authApi from "../api/authApi";
+import { toast } from 'react-toastify';  // Import toastify
+import 'react-toastify/dist/ReactToastify.css';  // Import toastify css
 
 function Copyright(props) {
     return (
@@ -38,20 +40,25 @@ const defaultTheme = createTheme();
 const Login = () => {
     const navigate = useNavigate();
     const [errorMessage, setError] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const handleSubmit = (event) => {
-    event.preventDefault();  // デフォルトでリロードの処理がかかるのを防いでいる
+      event.preventDefault();  // デフォルトでリロードの処理がかかるのを防いでいる
+      setIsSubmitting(true);
+      const data = new FormData(event.currentTarget);
 
-    const data = new FormData(event.currentTarget);
-
-    authApi.Login(data)
+      authApi.Login(data)
         .then((res) => {
             console.log('成功しました', res);
-            navigate("/");
+            toast.success('ログイン成功', {
+              onClose: () => navigate("/"),  // Redirect to home on toast close
+              autoClose: 2000,  // Set autoClose time
+            });
             setError("");
         })
         .catch((error) => {
             console.log(error)
             setError(error.response.data);
+            setIsSubmitting(false);
         });
     };
 
@@ -111,12 +118,16 @@ const Login = () => {
               {errorMessage.password ? (
                 <p className="red">{errorMessage.password}</p>
               ) : null}
+              {errorMessage ? (
+              <p className="red">{errorMessage}</p>
+            ) : null}
             </Grid>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={isSubmitting}
             >
               Login
             </Button>
