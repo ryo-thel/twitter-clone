@@ -194,6 +194,18 @@ const authApi = {
         }
     },
 
+    Profile : async (data) => {
+        try {
+            const response = await axios.post(
+                `${BASE_URL}/profile/`,
+                data,
+            );
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
 
 }
 

@@ -1,12 +1,16 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
+import React, { useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import authApi from "../api/authApi";
 
@@ -86,27 +90,45 @@ const Profile = () => {
                 Upload Profile Image
               </Button>
             </label>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="accountName"
-              label="Account Name"
-              name="accountName"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="bio"
-              label="Bio"
-              type="text"
-              id="bio"
-              multiline
-              rows={4}
-            />
+            <Grid item xs={12}>
+                  {errorMessage.icon ? (
+                    <p className="red">{errorMessage.icon}</p>
+                  ) : null}
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="account_name"
+                label="Account Name"
+                name="account_name"
+                autoFocus
+              />
+            </Grid>
+            <Grid item xs={12}>
+                  {errorMessage.accountName ? (
+                    <p className="red">{errorMessage.accountName}</p>
+                  ) : null}
+                </Grid>
+            <Grid item xs={12}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="bio"
+                label="Bio"
+                type="text"
+                id="bio"
+                multiline
+                rows={4}
+              />
+            </Grid>
+            <Grid item xs={12}>
+                  {errorMessage.bio ? (
+                    <p className="red">{errorMessage.bio}</p>
+                  ) : null}
+                </Grid>
             <Button
               type="submit"
               fullWidth
@@ -123,3 +145,5 @@ const Profile = () => {
     </ThemeProvider>
   );
 }
+
+export default Profile;

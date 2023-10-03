@@ -12,6 +12,7 @@ import SetUsername from "./pages/SetUsername";
 import SetPassword from "./pages/SetPassword";
 import User from "./pages/User";
 import Home from "./pages/Home";
+import Profile from "./pages/Profile"
 import { ToastContainer } from 'react-toastify';  // Import ToastContainer
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -29,6 +30,7 @@ function App() {
               <Route path="/setusername" element={<SetUsername />} />
               <Route path="/setpassword" element={<SetPassword />} />
               <Route path="/user" element={<User />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/resendactivation" element={<ResendActivation />} />
               <Route path="/reset_password_email_form" element={<ResetEmailForm reset_of="password" />} />
               <Route path="/password/reset/confirm/:uid/:token" element={<ResetPassword />} />
