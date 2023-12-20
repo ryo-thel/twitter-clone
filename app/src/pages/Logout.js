@@ -29,7 +29,7 @@ const Logout = () => {
         console.log('失敗しました', error);
         // Display error toast
         toast.error('ログアウト失敗', {
-          onClose: () => navigate("/"),
+          onClose: () => navigate("/home"),
           autoClose: 2000,  // Set autoClose time
         });
       });

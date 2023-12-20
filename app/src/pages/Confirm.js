@@ -54,7 +54,7 @@ export function ResetPassword () {
         .then((res) => {
             console.log('成功しました', res);
             toast.success('リセットが完了しました', {
-              onClose: () => navigate("/"),  // Redirect to home on toast close
+              onClose: () => navigate("/home"),  // Redirect to home on toast close
               autoClose: 2000,  // Set autoClose time
             });
             setError("");
@@ -159,7 +159,7 @@ export function ResetUsername () {
       .then((res) => {
           console.log('成功しました', res);
           toast.success('リセットメールを送信しました', {
-            onClose: () => navigate("/"),  // Redirect to home on toast close
+            onClose: () => navigate("/home"),  // Redirect to home on toast close
             autoClose: 2000,  // Set autoClose time
           });
           setError("");

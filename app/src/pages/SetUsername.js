@@ -50,7 +50,7 @@ const SetUsername = () => {
         .then((res) => {
             console.log('成功しました', res);
             toast.success('変更しました', {
-              onClose: () => navigate("/"),  // Redirect to home on toast close
+              onClose: () => navigate("/home"),  // Redirect to home on toast close
               autoClose: 2000,  // Set autoClose time
             });
             setError("");
